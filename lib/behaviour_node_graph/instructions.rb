@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module BehaviourNodeGraph
   class Instructions < OpenStruct
 
@@ -7,6 +9,10 @@ module BehaviourNodeGraph
       else
         super(method, *args, &block)
       end
+    end
+
+    def to_ary
+
     end
 
   end
