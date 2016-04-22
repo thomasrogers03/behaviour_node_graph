@@ -25,6 +25,13 @@ module BehaviourNodeGraph
       its(:node_type) { is_expected.to eq(node_klass) }
       its(:id) { is_expected.to eq(node_id) }
       its(:name) { is_expected.to eq(attribute_value) }
+
+      context 'when this node has already been added' do
+        let(:node_value) { Faker::Lorem.sentence }
+        let(:graph) { {node_id => node_value} }
+
+        it { is_expected.to eq(node_value) }
+      end
     end
   end
 end

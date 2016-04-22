@@ -8,7 +8,7 @@ module BehaviourNodeGraph
     end
 
     def add_to_graph(graph)
-      graph[id] = Instructions.new(to_h.merge(id: id, node_type: self.class))
+      graph[id] ||= Instructions.new(to_h.merge(id: id, node_type: self.class))
     end
   end
 end
