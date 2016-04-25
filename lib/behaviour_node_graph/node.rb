@@ -21,7 +21,7 @@ module BehaviourNodeGraph
       graph[id] ||= Instructions.new(id: id, node_type: self.class, attributes: to_h)
     end
 
-    def load_from_graph(_, instructions, node_graph)
+    def load_from_graph(_, instructions, _)
       instructions[:attributes].each do |attribute, value|
         public_send(:"#{attribute}=", value)
       end
