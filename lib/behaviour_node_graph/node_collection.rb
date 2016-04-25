@@ -28,7 +28,7 @@ module BehaviourNodeGraph
     end
 
     def act
-      self.context = Instructions.new
+      self.context ||= Instructions.new
       child = children.first
       child.context = context
       child.act

@@ -133,6 +133,15 @@ module BehaviourNodeGraph
         expect(node).to receive(:act)
         subject.act
       end
+
+      context 'with a previously existing context' do
+        let(:context) { Instructions.new(hello: :world) }
+
+        it 'creates uses that context' do
+          subject.act
+          expect(subject.context).to eq(context)
+        end
+      end
     end
 
   end
