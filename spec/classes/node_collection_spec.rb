@@ -7,6 +7,10 @@ module BehaviourNodeGraph
     let(:node_klass) do
       Class.new do
         include Node
+
+        def to_h
+          {}
+        end
       end
     end
     let(:list_of_nodes) { [] }
@@ -31,6 +35,32 @@ module BehaviourNodeGraph
 
           its(:children) { is_expected.to eq(list_of_nodes) }
         end
+      end
+    end
+
+    describe '#add_to_graph' do
+      let(:graph) { {} }
+      let(:child_graph) { {} }
+      let(:node) { node_klass.new(SecureRandom.base64) }
+      let(:list_of_nodes) { [node] }
+
+      subject { graph[node_id] }
+
+      before do
+        node.add_to_graph(child_graph)
+        node_collection.add_to_graph(graph)
+      end
+
+      its(:node_type) { is_expected.to eq(NodeCollection) }
+      its(:id) { is_expected.to eq(node_id) }
+      its(:children) { is_expected.to eq([node.id]) }
+      it { expect(graph).to include(child_graph) }
+
+      context 'when this node has already been added' do
+        let(:node_value) { Faker::Lorem.sentence }
+        let(:graph) { {node_id => node_value} }
+
+        it { is_expected.to eq(node_value) }
       end
     end
 
