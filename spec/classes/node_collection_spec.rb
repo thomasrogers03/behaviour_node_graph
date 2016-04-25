@@ -36,7 +36,7 @@ module BehaviourNodeGraph
 
     describe '#context' do
       let(:context) { SecureRandom.uuid }
-      subject { node }
+      subject { node_collection }
       before { subject.context = context }
       its(:context) { is_expected.to eq(context) }
     end
