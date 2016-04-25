@@ -121,7 +121,7 @@ module BehaviourNodeGraph
 
       it 'creates a new context' do
         subject.act
-        expect(subject.context).to be_a_kind_of(Instructions)
+        expect(subject.context).to be_a_kind_of(Context)
       end
 
       it 'sets the child node context to the new context' do
@@ -135,7 +135,7 @@ module BehaviourNodeGraph
       end
 
       context 'with a previously existing context' do
-        let(:context) { Instructions.new(hello: :world) }
+        let(:context) { Context.new(hello: :world) }
 
         it 'creates uses that context' do
           subject.act
