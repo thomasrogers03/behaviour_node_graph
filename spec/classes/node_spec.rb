@@ -11,9 +11,23 @@ module BehaviourNodeGraph
     let(:node_klass) do
       Class.new(Struct.new(*list_of_attributes)) do
         include Node
+
+        def initialize_from_instructions
+
+        end
       end
     end
     let(:node) { node_klass.new(node_id, *list_of_values) }
+
+    describe '.load_from_graph' do
+      let(:graph) { {} }
+
+      subject { Node.load_from_graph(graph, node_id) }
+
+      before { node.add_to_graph(graph) }
+
+      it { is_expected.to eq(node) }
+    end
 
     describe '#add_to_graph' do
       let(:graph) { {} }
@@ -42,5 +56,6 @@ module BehaviourNodeGraph
         it { is_expected.to eq(node_value) }
       end
     end
+
   end
 end

@@ -2,6 +2,15 @@ module BehaviourNodeGraph
   module Node
     attr_reader :id
 
+    def self.load_from_graph(graph, node_id)
+      instructions = graph[node_id]
+      instructions.node_type.new(node_id).tap do |node|
+        instructions[:attributes].each do |attribute, value|
+          node.public_send(:"#{attribute}=", value)
+        end
+      end
+    end
+
     def initialize(id, *args)
       @id = id
       super(*args)
