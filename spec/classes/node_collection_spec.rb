@@ -7,10 +7,6 @@ module BehaviourNodeGraph
     let(:node_klass) do
       Class.new do
         include Node
-
-        def initialize_from_instructions
-
-        end
       end
     end
     let(:list_of_nodes) { [] }

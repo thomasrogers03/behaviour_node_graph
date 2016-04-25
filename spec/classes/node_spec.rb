@@ -11,10 +11,6 @@ module BehaviourNodeGraph
     let(:node_klass) do
       Class.new(Struct.new(*list_of_attributes)) do
         include Node
-
-        def initialize_from_instructions
-
-        end
       end
     end
     let(:node) { node_klass.new(node_id, *list_of_values) }
