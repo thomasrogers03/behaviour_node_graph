@@ -12,6 +12,10 @@ module BehaviourNodeGraph
           {}
         end
 
+        def act
+
+        end
+
         def ==(rhs)
           rhs.is_a?(self.class) && id == rhs.id
         end
@@ -104,6 +108,31 @@ module BehaviourNodeGraph
       subject { node_collection }
       before { subject.context = context }
       its(:context) { is_expected.to eq(context) }
+    end
+
+    describe '#act' do
+      let(:context) {}
+      let(:node) { node_klass.new(SecureRandom.base64) }
+      let(:list_of_nodes) { [node] }
+
+      subject { node_collection }
+
+      before { subject.context = context }
+
+      it 'creates a new context' do
+        subject.act
+        expect(subject.context).to be_a_kind_of(Instructions)
+      end
+
+      it 'sets the child node context to the new context' do
+        subject.act
+        expect(node.context).to eq(subject.context)
+      end
+
+      it 'calls #act on the child node' do
+        expect(node).to receive(:act)
+        subject.act
+      end
     end
 
   end
