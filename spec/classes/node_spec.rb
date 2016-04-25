@@ -24,7 +24,16 @@ module BehaviourNodeGraph
 
       its(:node_type) { is_expected.to eq(node_klass) }
       its(:id) { is_expected.to eq(node_id) }
-      its(:name) { is_expected.to eq(attribute_value) }
+      its(:attributes) { is_expected.to eq(name: attribute_value) }
+
+      context 'with multiple attributes' do
+        let(:attribute_two) { :value }
+        let(:attribute_value_two) { Faker::Lorem.sentence }
+        let(:list_of_attributes) { [attribute, attribute_two] }
+        let(:list_of_values) { [attribute_value, attribute_value_two] }
+
+        its(:attributes) { is_expected.to eq(name: attribute_value, value: attribute_value_two) }
+      end
 
       context 'when this node has already been added' do
         let(:node_value) { Faker::Lorem.sentence }
