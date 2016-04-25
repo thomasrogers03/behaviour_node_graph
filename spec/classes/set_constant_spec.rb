@@ -13,12 +13,11 @@ module BehaviourNodeGraph
     it { is_expected.to be_a_kind_of(Node) }
 
     describe '#act' do
-      let(:context) { Instructions.new }
+      let(:context) { Context.new }
 
       subject { context }
 
       before do
-        context.values = {}
         node.context = context
         node.act
       end
