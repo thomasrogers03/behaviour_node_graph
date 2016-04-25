@@ -1,6 +1,7 @@
 module BehaviourNodeGraph
   module Node
     attr_reader :id
+    attr_accessor :context
 
     def self.load_from_graph(graph, node_id)
       instructions = graph[node_id]
