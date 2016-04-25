@@ -11,12 +11,47 @@ module BehaviourNodeGraph
         def to_h
           {}
         end
+
+        def ==(rhs)
+          rhs.is_a?(self.class) && id == rhs.id
+        end
       end
     end
     let(:list_of_nodes) { [] }
     let(:node_collection) { NodeCollection.new(node_id, list_of_nodes) }
 
     subject { node_collection }
+
+    describe '.load_from_graph' do
+      let(:node) { node_klass.new(SecureRandom.base64) }
+      let(:list_of_nodes) { [node] }
+      let(:graph) { {} }
+      let(:node_graph) { {} }
+
+      subject { Node.load_from_graph(graph, node_id, node_graph) }
+
+      before { node_collection.add_to_graph(graph) }
+
+      its(:id) { is_expected.to eq(node_id) }
+      its(:children) { is_expected.to eq(list_of_nodes) }
+
+      it 'should save the node for later' do
+        subject
+        expect(node_graph[node_id]).to eq(subject)
+      end
+
+      context 'when this node has already been added' do
+        let(:node_value) { Faker::Lorem.sentence }
+        let(:node_graph) { {node_id => node_value} }
+
+        it { is_expected.to eq(node_value) }
+
+        it 'should leave the cached value alone' do
+          subject
+          expect(node_graph[node_id]).to eq(node_value)
+        end
+      end
+    end
 
     its(:id) { is_expected.to eq(node_id) }
 

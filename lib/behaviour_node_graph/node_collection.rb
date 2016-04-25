@@ -3,7 +3,7 @@ module BehaviourNodeGraph
     attr_reader :id, :children
     attr_accessor :context
 
-    def initialize(id, children)
+    def initialize(id, children = nil)
       @id = id
       @children = children
     end
@@ -18,6 +18,12 @@ module BehaviourNodeGraph
             child.id
           end
         end
+      end
+    end
+
+    def load_from_graph(graph, instructions, node_graph)
+      @children = instructions.children.map do |child_id|
+        Node.load_from_graph(graph, child_id, node_graph)
       end
     end
 
