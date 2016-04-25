@@ -1,11 +1,12 @@
 module BehaviourNodeGraph
   class NodeCollection
-    attr_reader :id, :children
+    attr_reader :id, :children, :context_type
     attr_accessor :context
 
-    def initialize(id, children = nil)
+    def initialize(id, children = nil, context_type = Context)
       @id = id
       @children = children
+      @context_type = context_type
     end
 
     def add_to_graph(graph)
@@ -17,6 +18,7 @@ module BehaviourNodeGraph
             child.add_to_graph(graph)
             child.id
           end
+          instructions.context_type = context_type unless context_type == Context
         end
       end
     end
@@ -25,6 +27,7 @@ module BehaviourNodeGraph
       @children = instructions.children.map do |child_id|
         Node.load_from_graph(graph, child_id, node_graph)
       end
+      @context_type = instructions.context_type if instructions[:context_type]
     end
 
     def act

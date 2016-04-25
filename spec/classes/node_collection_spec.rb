@@ -55,9 +55,29 @@ module BehaviourNodeGraph
           expect(node_graph[node_id]).to eq(node_value)
         end
       end
+
+      context 'with a custom context type' do
+        let(:context_type) { Class.new(Context) }
+        let(:node_collection) { NodeCollection.new(node_id, list_of_nodes, context_type) }
+
+        it 'should assign the context type to the new node' do
+          expect(subject.context_type).to eq(context_type)
+        end
+      end
     end
 
     its(:id) { is_expected.to eq(node_id) }
+
+    describe '#context_type' do
+      its(:context_type) { is_expected.to eq(Context) }
+
+      context 'with a custom context type' do
+        let(:context_type) { Class.new(Context) }
+        let(:node_collection) { NodeCollection.new(node_id, list_of_nodes, context_type) }
+
+        its(:context_type) { is_expected.to eq(context_type) }
+      end
+    end
 
     describe '#children' do
       its(:children) { is_expected.to be_empty }
@@ -93,6 +113,7 @@ module BehaviourNodeGraph
       its(:node_type) { is_expected.to eq(NodeCollection) }
       its(:id) { is_expected.to eq(node_id) }
       its(:children) { is_expected.to eq([node.id]) }
+      its(:to_h) { is_expected.not_to include(:context_type) }
       it { expect(graph).to include(child_graph) }
 
       context 'when this node has already been added' do
@@ -100,6 +121,13 @@ module BehaviourNodeGraph
         let(:graph) { {node_id => node_value} }
 
         it { is_expected.to eq(node_value) }
+      end
+
+      context 'with a custom context type' do
+        let(:context_type) { Class.new(Context) }
+        let(:node_collection) { NodeCollection.new(node_id, list_of_nodes, context_type) }
+
+        its(:context_type) { is_expected.to eq(context_type) }
       end
     end
 
