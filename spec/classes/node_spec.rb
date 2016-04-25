@@ -21,12 +21,30 @@ module BehaviourNodeGraph
 
     describe '.load_from_graph' do
       let(:graph) { {} }
+      let(:node_graph) { {} }
 
-      subject { Node.load_from_graph(graph, node_id) }
+      subject { Node.load_from_graph(graph, node_id, node_graph) }
 
       before { node.add_to_graph(graph) }
 
       it { is_expected.to eq(node) }
+
+      it 'should save the node for later' do
+        subject
+        expect(node_graph[node_id]).to eq(node)
+      end
+
+      context 'when this node has already been added' do
+        let(:node_value) { Faker::Lorem.sentence }
+        let(:node_graph) { {node_id => node_value} }
+
+        it { is_expected.to eq(node_value) }
+
+        it 'should leave the cached value alone' do
+          subject
+          expect(node_graph[node_id]).to eq(node_value)
+        end
+      end
     end
 
     describe '#add_to_graph' do
