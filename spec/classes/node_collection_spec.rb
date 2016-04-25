@@ -142,6 +142,21 @@ module BehaviourNodeGraph
           expect(subject.context).to eq(context)
         end
       end
+
+      context 'with multiple children' do
+        let(:node_two) { node_klass.new(SecureRandom.base64) }
+        let(:list_of_nodes) { [node, node_two] }
+
+        it 'calls #act on the first child' do
+          expect(node).to receive(:act)
+          subject.act
+        end
+
+        it 'calls #act on the second child' do
+          expect(node_two).to receive(:act)
+          subject.act
+        end
+      end
     end
 
   end

@@ -29,9 +29,10 @@ module BehaviourNodeGraph
 
     def act
       self.context ||= Instructions.new
-      child = children.first
-      child.context = context
-      child.act
+      children.each do |child|
+        child.context = context
+        child.act
+      end
     end
 
   end
