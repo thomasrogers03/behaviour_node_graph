@@ -12,7 +12,7 @@ module BehaviourNodeGraph
     def add_to_graph(graph)
       graph[id] ||= begin
         Instructions.new.tap do |instructions|
-          instructions.node_type = NodeCollection
+          instructions.node_type = self.class
           instructions.id = id
           instructions.children = children.map do |child|
             child.add_to_graph(graph)
