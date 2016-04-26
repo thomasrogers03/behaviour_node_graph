@@ -33,5 +33,9 @@ module BehaviourNodeGraph
       @condition_source = instructions.condition_source
     end
 
+    def act
+      context.values[condition_source] ? @true_node.act : @false_node.act
+    end
+
   end
 end

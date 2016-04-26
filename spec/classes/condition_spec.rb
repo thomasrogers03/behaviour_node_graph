@@ -81,6 +81,37 @@ module BehaviourNodeGraph
     end
 
     describe '#act' do
+      let(:condition_value) { true }
+      let(:context) { Context.new }
+
+      before do
+        context.values[condition_source] = condition_value
+        subject.context = context
+      end
+
+      it 'should call #act on the true node' do
+        expect(lhs_node).to receive(:act)
+        subject.act
+      end
+
+      it 'should NOT call #act on the false node' do
+        expect(rhs_node).not_to receive(:act)
+        subject.act
+      end
+
+      context 'when the condition value is false' do
+        let(:condition_value) { false }
+
+        it 'should NOT call #act on the true node' do
+          expect(lhs_node).not_to receive(:act)
+          subject.act
+        end
+
+        it 'should call #act on the false node' do
+          expect(rhs_node).to receive(:act)
+          subject.act
+        end
+      end
     end
 
   end
