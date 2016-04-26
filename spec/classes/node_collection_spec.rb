@@ -4,23 +4,7 @@ module BehaviourNodeGraph
   describe NodeCollection do
 
     let(:node_id) { SecureRandom.base64 }
-    let(:node_klass) do
-      Class.new do
-        include Node
-
-        def to_h
-          {}
-        end
-
-        def act
-
-        end
-
-        def ==(rhs)
-          rhs.is_a?(self.class) && id == rhs.id
-        end
-      end
-    end
+    let(:node_klass) { BehaviourNodeGraph.define_simple_node {} }
     let(:list_of_nodes) { [] }
     let(:node_collection) { NodeCollection.new(node_id, list_of_nodes) }
 
