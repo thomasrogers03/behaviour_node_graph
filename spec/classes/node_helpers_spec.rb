@@ -25,6 +25,26 @@ module BehaviourNodeGraph
       its(:to_h) { is_expected.to include(*attributes) }
       its(:act) { is_expected.to eq(act_result) }
     end
+
+    describe '#==' do
+      let(:lhs) { node_klass.new_node }
+      let(:rhs) { node_klass.new(lhs.id) }
+
+      subject { lhs == rhs }
+
+      it { is_expected.to eq(true) }
+
+      context 'with 2 different ids' do
+        let(:rhs) { node_klass.new_node }
+        it { is_expected.to eq(false) }
+      end
+
+      context 'with different types' do
+        let(:node_klass_two) { BehaviourNodeGraph.define_simple_node(*attributes, &act_block) }
+        let(:rhs) { node_klass_two.new(lhs.id) }
+        it { is_expected.to eq(false) }
+      end
+    end
   end
 
 end
