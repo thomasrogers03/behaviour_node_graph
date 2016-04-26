@@ -15,6 +15,15 @@ module BehaviourNodeGraph
     end
     let(:node) { node_klass.new(node_id, *list_of_values) }
 
+    describe '.new_node' do
+      before { allow(SecureRandom).to receive(:base64).and_return(node_id) }
+
+      subject { node_klass.new_node(*list_of_values) }
+
+      its(:id) { is_expected.to eq(node_id) }
+      it { is_expected.to eq(node) }
+    end
+
     describe '.load_from_graph' do
       let(:graph) { {} }
       let(:node_graph) { {} }

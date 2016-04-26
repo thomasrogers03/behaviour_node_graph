@@ -12,6 +12,16 @@ module BehaviourNodeGraph
       end
     end
 
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def new_node(*args)
+        new(SecureRandom.base64, *args)
+      end
+    end
+
     def initialize(id, *args)
       @id = id
       super(*args)
