@@ -89,7 +89,6 @@ module BehaviourNodeGraph
 
     describe 'node linking' do
       subject { node_klass.new(node_id) }
-
       it_behaves_like 'linking nodes together'
     end
   end
