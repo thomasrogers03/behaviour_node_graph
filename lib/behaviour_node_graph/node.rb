@@ -43,10 +43,11 @@ module BehaviourNodeGraph
       end
     end
 
-    def load_from_graph(_, instructions, _)
+    def load_from_graph(graph, instructions, node_graph)
       instructions[:attributes].each do |attribute, value|
         public_send(:"#{attribute}=", value)
       end
+      self.next_node = Node.load_from_graph(graph, instructions.next_node, node_graph) if instructions[:next_node]
     end
   end
 end
