@@ -37,14 +37,15 @@ module BehaviourNodeGraph
 
     def act
       self.context ||= Context.new
-      children.each do |child|
-        child.context = context
-        child.act
-      end
-      if next_node
-        next_node.context = context
-        next_node.act
-      end
+      children.each { |child| child_act(child) }
+      child_act(next_node) if next_node
+    end
+
+    private
+
+    def child_act(child)
+      child.context = context
+      child.act
     end
 
   end
