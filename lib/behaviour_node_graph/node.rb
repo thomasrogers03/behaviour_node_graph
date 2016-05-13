@@ -1,7 +1,7 @@
 module BehaviourNodeGraph
   module Node
     attr_reader :id
-    attr_accessor :context
+    attr_accessor :context, :next_node
 
     def self.load_from_graph(graph, node_id, node_graph)
       node_graph[node_id] ||= begin
@@ -28,7 +28,19 @@ module BehaviourNodeGraph
     end
 
     def add_to_graph(graph)
-      graph[id] ||= Instructions.new(id: id, node_type: self.class, attributes: to_h)
+      graph[id] ||= Instructions.new(id: id, node_type: self.class, attributes: to_h).tap do |instructions|
+        if next_node
+          next_node.add_to_graph(graph)
+          instructions.next_node = next_node.id
+        end
+      end
+    end
+
+    def act
+      if next_node
+        next_node.context = context
+        next_node.act
+      end
     end
 
     def load_from_graph(_, instructions, _)
