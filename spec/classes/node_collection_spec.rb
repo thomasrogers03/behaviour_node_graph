@@ -171,5 +171,7 @@ module BehaviourNodeGraph
       end
     end
 
+    it_behaves_like 'linking nodes together'
+
   end
 end

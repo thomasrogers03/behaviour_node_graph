@@ -4,6 +4,7 @@ module BehaviourNodeGraph
 
     def act
       context.values[target] = value
+      super
     end
   end
 end

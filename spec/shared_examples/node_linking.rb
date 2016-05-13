@@ -55,7 +55,7 @@ module BehaviourNodeGraph
     end
 
     describe '#act' do
-      let(:context) { double(:context) }
+      let(:context) { Context.new }
 
       before { subject.context = context }
 

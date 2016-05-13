@@ -10,8 +10,10 @@ module BehaviourNodeGraph
       ->() { result }
     end
     let(:node_klass) { BehaviourNodeGraph.define_simple_node(*attributes, &act_block) }
+    let(:node) { node_klass.new_node }
+    let(:node_id) { node.id }
 
-    subject { node_klass.new_node }
+    subject { node }
 
     it { is_expected.to be_a_kind_of(Node) }
     its(:to_h) { is_expected.to eq({}) }
@@ -24,7 +26,12 @@ module BehaviourNodeGraph
       its(:members) { is_expected.to eq(attributes) }
       its(:to_h) { is_expected.to include(*attributes) }
       its(:act) { is_expected.to eq(act_result) }
+
+      it_behaves_like 'linking nodes together'
+
     end
+
+    it_behaves_like 'linking nodes together'
 
     describe '#==' do
       let(:lhs) { node_klass.new_node }

@@ -25,5 +25,7 @@ module BehaviourNodeGraph
       its(:values) { is_expected.to include(target => value) }
     end
 
+    it_behaves_like 'linking nodes together'
+
   end
 end
