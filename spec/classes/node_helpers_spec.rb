@@ -19,6 +19,32 @@ module BehaviourNodeGraph
     its(:to_h) { is_expected.to eq({}) }
     its(:act) { is_expected.to eq(act_result) }
 
+    describe '#act' do
+      let(:node_context) { Context.new } # note: this must not be called context, otherwise the test will pass!
+      let(:node_klass) do
+        result = act_result
+        BehaviourNodeGraph.define_simple_node(*attributes) do
+          context.values[:result] = result
+        end
+      end
+
+      before { subject.context = node_context }
+
+      it 'calls the block within context of the Node' do
+        subject.act
+        expect(node_context.values[:result]).to eq(act_result)
+      end
+
+      context 'with attributes' do
+        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+
+        it 'calls the block within context of the Node' do
+          subject.act
+          expect(node_context.values[:result]).to eq(act_result)
+        end
+      end
+    end
+
     context 'with attributes' do
       let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
 

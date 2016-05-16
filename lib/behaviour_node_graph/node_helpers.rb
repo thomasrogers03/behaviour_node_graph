@@ -5,14 +5,14 @@ module BehaviourNodeGraph
       Struct.new(*attributes) do
         include Node
         define_method(:act) do
-          block.call.tap { super() }
+          instance_exec(&block).tap { super() }
         end
       end
     else
       Class.new do
         include Node
         define_method(:act) do
-          block.call.tap { super() }
+          instance_exec(&block).tap { super() }
         end
         define_method(:to_h) { {} }
 
