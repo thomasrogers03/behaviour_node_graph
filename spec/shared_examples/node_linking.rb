@@ -1,7 +1,7 @@
 module BehaviourNodeGraph
   shared_examples_for 'linking nodes together' do
     let(:next_node_klass) { BehaviourNodeGraph.define_simple_node {} }
-    let(:next_node) { double(:node, :context= => nil, act: nil) }
+    let(:next_node) { double(:node, :context= => nil, act: nil, next_node: nil) }
 
     before { subject.next_node = next_node }
 

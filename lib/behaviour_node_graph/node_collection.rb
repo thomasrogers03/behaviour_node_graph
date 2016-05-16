@@ -40,16 +40,9 @@ module BehaviourNodeGraph
     end
 
     def act
-      self.context ||= Context.new
-      children.each { |child| child_act(child) }
-      child_act(next_node) if next_node
-    end
-
-    private
-
-    def child_act(child)
-      child.context = context
-      child.act
+      executor = Executor.new(self.context ||= Context.new)
+      children.each { |child| executor.execute(child) }
+      executor.execute(next_node) if next_node
     end
 
   end
