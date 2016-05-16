@@ -39,8 +39,6 @@ module BehaviourNodeGraph
 
     def act
       @next_node = context.values[condition_source] ? @true_node : @false_node
-      @next_node.context = context
-      @next_node.act
     end
 
   end

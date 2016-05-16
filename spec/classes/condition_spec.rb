@@ -99,47 +99,17 @@ module BehaviourNodeGraph
         subject.context = context
       end
 
-      it 'should call #act on the true node' do
-        expect(lhs_node).to receive(:act)
-        subject.act
-      end
-
-      it 'sets the context of the true node' do
-        subject.act
-        expect(lhs_node.context).to eq(context)
-      end
-
       it 'should set the next_node' do
         subject.act
         expect(subject.next_node).to eq(lhs_node)
       end
 
-      it 'should NOT call #act on the false node' do
-        expect(rhs_node).not_to receive(:act)
-        subject.act
-      end
-
       context 'when the condition value is false' do
         let(:condition_value) { false }
-
-        it 'should NOT call #act on the true node' do
-          expect(lhs_node).not_to receive(:act)
-          subject.act
-        end
-
-        it 'should call #act on the false node' do
-          expect(rhs_node).to receive(:act)
-          subject.act
-        end
 
         it 'should set the next_node' do
           subject.act
           expect(subject.next_node).to eq(rhs_node)
-        end
-
-        it 'sets the context of the false node' do
-          subject.act
-          expect(rhs_node.context).to eq(context)
         end
       end
     end
