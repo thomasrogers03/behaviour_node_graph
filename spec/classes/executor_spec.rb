@@ -12,46 +12,36 @@ module BehaviourNodeGraph
         subject.execute(node)
       end
 
-      context 'with a node' do
-        let(:node_two) { nil }
-        let(:node) { double(:node, act: nil, :context= => nil, next_node: node_two) }
+      shared_examples_for 'performing an action on a node' do |node_name|
+        let(:expected_node) { public_send(node_name) }
 
         it 'sets the node context' do
-          expect(node).to receive(:context=).with(context)
+          expect(expected_node).to receive(:context=).with(context)
           subject.execute(node)
         end
 
         it 'should call #act on the node' do
-          expect(node).to receive(:act)
+          expect(expected_node).to receive(:act)
           subject.execute(node)
         end
+      end
+
+      context 'with a node' do
+        let(:node_two) { nil }
+        let(:node) { double(:node, act: nil, :context= => nil, next_node: node_two) }
+
+        it_behaves_like 'performing an action on a node', :node
 
         context 'with another node' do
           let(:node_three) { nil }
           let(:node_two) { double(:node, act: nil, :context= => nil, next_node: node_three) }
 
-          it 'sets the node context' do
-            expect(node_two).to receive(:context=).with(context)
-            subject.execute(node)
-          end
-
-          it 'should call #act on the node' do
-            expect(node_two).to receive(:act)
-            subject.execute(node)
-          end
+          it_behaves_like 'performing an action on a node', :node_two
 
           context 'with many nodes linked together' do
             let(:node_three) { double(:node, act: nil, :context= => nil, next_node: nil) }
 
-            it 'sets the node context' do
-              expect(node_three).to receive(:context=).with(context)
-              subject.execute(node)
-            end
-
-            it 'should call #act on the node' do
-              expect(node_three).to receive(:act)
-              subject.execute(node)
-            end
+            it_behaves_like 'performing an action on a node', :node_three
           end
         end
       end
