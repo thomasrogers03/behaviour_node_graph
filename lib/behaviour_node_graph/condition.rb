@@ -1,6 +1,6 @@
 module BehaviourNodeGraph
   class Condition
-    attr_reader :id, :true_node, :false_node, :condition_source
+    attr_reader :id, :true_node, :false_node, :condition_source, :next_node
     attr_accessor :context
 
     def self.new_node(true_node, false_node, condition_source)
@@ -38,9 +38,9 @@ module BehaviourNodeGraph
     end
 
     def act
-      node = context.values[condition_source] ? @true_node : @false_node
-      node.context = context
-      node.act
+      @next_node = context.values[condition_source] ? @true_node : @false_node
+      @next_node.context = context
+      @next_node.act
     end
 
   end

@@ -109,6 +109,11 @@ module BehaviourNodeGraph
         expect(lhs_node.context).to eq(context)
       end
 
+      it 'should set the next_node' do
+        subject.act
+        expect(subject.next_node).to eq(lhs_node)
+      end
+
       it 'should NOT call #act on the false node' do
         expect(rhs_node).not_to receive(:act)
         subject.act
@@ -125,6 +130,11 @@ module BehaviourNodeGraph
         it 'should call #act on the false node' do
           expect(rhs_node).to receive(:act)
           subject.act
+        end
+
+        it 'should set the next_node' do
+          subject.act
+          expect(subject.next_node).to eq(rhs_node)
         end
 
         it 'sets the context of the false node' do
