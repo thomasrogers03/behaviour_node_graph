@@ -41,6 +41,16 @@ module BehaviourNodeGraph
       end
     end
 
+    describe '.new_node' do
+      before { allow(SecureRandom).to receive(:base64).and_return(node_id) }
+      subject { Condition.new_node(lhs_node, rhs_node, condition_source) }
+
+      its(:id) { is_expected.to eq(node_id) }
+      its(:true_node) { is_expected.to eq(lhs_node) }
+      its(:false_node) { is_expected.to eq(rhs_node) }
+      its(:condition_source) { is_expected.to eq(condition_source) }
+    end
+
     its(:id) { is_expected.to eq(node_id) }
     its(:true_node) { is_expected.to eq(lhs_node) }
     its(:false_node) { is_expected.to eq(rhs_node) }

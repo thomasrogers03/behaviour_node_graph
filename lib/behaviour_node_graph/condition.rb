@@ -3,6 +3,10 @@ module BehaviourNodeGraph
     attr_reader :id, :true_node, :false_node, :condition_source
     attr_accessor :context
 
+    def self.new_node(true_node, false_node, condition_source)
+      new(SecureRandom.base64, true_node, false_node, condition_source)
+    end
+
     def initialize(id, true_node = nil, false_node = nil, condition_source = nil)
       @id = id
       @true_node = true_node
