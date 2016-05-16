@@ -58,24 +58,6 @@ module BehaviourNodeGraph
       let(:context) { Context.new }
 
       before { subject.context = context }
-
-      it 'sets the context for the next node' do
-        expect(next_node).to receive(:context=).with(context)
-        subject.act
-      end
-
-      it 'calls #act on the next node' do
-        expect(next_node).to receive(:act)
-        subject.act
-      end
-
-      context 'with no node' do
-        let(:next_node) { nil }
-
-        it 'does nothing with it' do
-          expect { subject.act }.not_to raise_error
-        end
-      end
     end
   end
 end

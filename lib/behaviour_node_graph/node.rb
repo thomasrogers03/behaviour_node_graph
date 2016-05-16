@@ -36,13 +36,6 @@ module BehaviourNodeGraph
       end
     end
 
-    def act
-      if next_node
-        next_node.context = context
-        next_node.act
-      end
-    end
-
     def load_from_graph(graph, instructions, node_graph)
       instructions[:attributes].each do |attribute, value|
         public_send(:"#{attribute}=", value)
