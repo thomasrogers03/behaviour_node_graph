@@ -3,6 +3,10 @@ module BehaviourNodeGraph
     attr_reader :id, :children, :context_type
     attr_accessor :context, :next_node
 
+    def self.new_node(children, context_type = Context)
+      new(SecureRandom.base64, children, context_type)
+    end
+
     def initialize(id, children = nil, context_type = Context)
       @id = id
       @children = children

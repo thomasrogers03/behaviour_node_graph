@@ -50,6 +50,22 @@ module BehaviourNodeGraph
       end
     end
 
+    describe '.new_node' do
+      before { allow(SecureRandom).to receive(:base64).and_return(node_id) }
+      subject { NodeCollection.new_node(list_of_nodes) }
+
+      its(:id) { is_expected.to eq(node_id) }
+      its(:children) { is_expected.to eq(list_of_nodes) }
+      its(:context_type) { is_expected.to eq(Context) }
+
+      context 'with a specific context type' do
+        let(:context_type) { Class.new(Context) }
+        subject { NodeCollection.new_node(list_of_nodes, context_type) }
+
+        its(:context_type) { is_expected.to eq(context_type) }
+      end
+    end
+
     its(:id) { is_expected.to eq(node_id) }
 
     describe '#context_type' do
