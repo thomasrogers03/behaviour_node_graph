@@ -1,5 +1,7 @@
 module BehaviourNodeGraph
   class NodeCollection
+    include Graphing
+
     attr_reader :id, :children, :context_type
     attr_accessor :context, :next_node
 
@@ -14,19 +16,17 @@ module BehaviourNodeGraph
     end
 
     def add_to_graph(graph)
-      graph[id] ||= begin
-        Instructions.new.tap do |instructions|
-          instructions.node_type = self.class
-          instructions.id = id
-          instructions.children = children.map do |child|
-            child.add_to_graph(graph)
-            child.id
-          end
-          instructions.context_type = context_type unless context_type == Context
-          if next_node
-            next_node.add_to_graph(graph)
-            instructions.next_node = next_node.id
-          end
+      add_node_to_graph(graph) do |instructions|
+        instructions.node_type = self.class
+        instructions.id = id
+        instructions.children = children.map do |child|
+          child.add_to_graph(graph)
+          child.id
+        end
+        instructions.context_type = context_type unless context_type == Context
+        if next_node
+          next_node.add_to_graph(graph)
+          instructions.next_node = next_node.id
         end
       end
     end

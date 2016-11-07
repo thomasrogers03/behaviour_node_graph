@@ -28,7 +28,9 @@ module BehaviourNodeGraph
     end
 
     def add_to_graph(graph)
-      graph[id] ||= Instructions.new(id: id, node_type: self.class, attributes: to_h).tap do |instructions|
+      unless graph[id]
+        instructions = Instructions.new(id: id, node_type: self.class, attributes: to_h)
+        graph[id] = instructions
         if next_node
           next_node.add_to_graph(graph)
           instructions.next_node = next_node.id

@@ -1,5 +1,7 @@
 module BehaviourNodeGraph
   class Condition
+    include Graphing
+
     attr_reader :id, :true_node, :false_node, :condition_source, :next_node
     attr_accessor :context
 
@@ -15,19 +17,17 @@ module BehaviourNodeGraph
     end
 
     def add_to_graph(graph)
-      graph[id] ||= begin
-        Instructions.new.tap do |instructions|
-          instructions.node_type = self.class
-          instructions.id = id
+      add_node_to_graph(graph) do |instructions|
+        instructions.node_type = self.class
+        instructions.id = id
 
-          true_node.add_to_graph(graph)
-          instructions.true_node = true_node.id
+        true_node.add_to_graph(graph)
+        instructions.true_node = true_node.id
 
-          false_node.add_to_graph(graph)
-          instructions.false_node = false_node.id
+        false_node.add_to_graph(graph)
+        instructions.false_node = false_node.id
 
-          instructions.condition_source = condition_source
-        end
+        instructions.condition_source = condition_source
       end
     end
 

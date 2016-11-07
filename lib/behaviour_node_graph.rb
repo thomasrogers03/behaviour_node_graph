@@ -1,5 +1,6 @@
 require 'thomas_utils'
 
+require 'behaviour_node_graph/concerns/graphing'
 require 'behaviour_node_graph/instructions'
 require 'behaviour_node_graph/context'
 require 'behaviour_node_graph/node'
