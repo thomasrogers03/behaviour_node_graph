@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/thomasrogers03/sidekiq_bolt.git
+  revision: bec1d6fd0c3fe406a21e36f73eaf11d2d146ae07
+  specs:
+    sidekiq_bolt (0.2.2)
+
+GIT
   remote: git://github.com/thomasrogers03/thomas_utils.git
   revision: b3d50368ce9958ed9c8f8c83cfe8fe3f166ae223
   specs:
@@ -45,6 +51,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     i18n (0.7.0)
     json (1.8.3)
+    json (1.8.3-java)
     listen (3.0.5)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -109,9 +116,10 @@ DEPENDENCIES
   guard-rspec
   rspec
   rspec-its
+  sidekiq_bolt!
   simplecov
   thomas_utils!
   timecop
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
