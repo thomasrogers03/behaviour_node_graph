@@ -30,6 +30,10 @@ module BehaviourNodeGraph
       def outputs
         NO_INPUTS
       end
+
+      def output_nodes
+        NO_INPUTS
+      end
     end
 
     def initialize(id, *args)
