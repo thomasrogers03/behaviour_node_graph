@@ -12,6 +12,11 @@ module BehaviourNodeGraph
 
     before { context.values[target] = initial_value }
 
+    describe '.properties' do
+      subject { Counter }
+      its(:properties) { is_expected.to eq([:increment]) }
+    end
+
     it { is_expected.to be_a_kind_of(Node) }
 
     describe '#act' do
