@@ -25,6 +25,10 @@ module BehaviourNodeGraph
       OUTPUT_NODES
     end
 
+    def self.properties
+      OUTPUTS
+    end
+
     def initialize(id, true_node = nil, false_node = nil, condition_source = nil)
       @id = id
       @true_node = true_node

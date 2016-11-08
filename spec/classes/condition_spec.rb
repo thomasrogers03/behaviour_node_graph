@@ -17,6 +17,7 @@ module BehaviourNodeGraph
       its(:inputs) { is_expected.to eq([:condition]) }
       its(:outputs) { is_expected.to eq([]) }
       its(:output_nodes) { is_expected.to eq([:true, :false]) }
+      its(:properties) { is_expected.to eq([]) }
     end
 
     describe '.load_from_graph' do
