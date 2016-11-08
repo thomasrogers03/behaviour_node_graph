@@ -15,6 +15,32 @@ module BehaviourNodeGraph
 
     subject { node }
 
+    describe '.inputs=' do
+      let(:inputs) { Faker::Lorem.words }
+      subject { node_klass }
+      before { node_klass.inputs = inputs }
+
+      its(:inputs) { is_expected.to eq(inputs) }
+
+      context 'with attributes' do
+        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+        its(:inputs) { is_expected.to eq(inputs) }
+      end
+    end
+
+    describe '.outputs=' do
+      let(:outputs) { Faker::Lorem.words }
+      subject { node_klass }
+      before { node_klass.outputs = outputs }
+
+      its(:outputs) { is_expected.to eq(outputs) }
+
+      context 'with attributes' do
+        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+        its(:outputs) { is_expected.to eq(outputs) }
+      end
+    end
+
     it { is_expected.to be_a_kind_of(Node) }
     its(:to_h) { is_expected.to eq({}) }
     its(:act) { is_expected.to eq(act_result) }
@@ -54,7 +80,6 @@ module BehaviourNodeGraph
       its(:act) { is_expected.to eq(act_result) }
 
       it_behaves_like 'linking nodes together'
-
     end
 
     it_behaves_like 'linking nodes together'

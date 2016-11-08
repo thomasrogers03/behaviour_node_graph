@@ -4,11 +4,13 @@ module BehaviourNodeGraph
     if attributes.any?
       Struct.new(*attributes) do
         include Node
+        extend NodeHelpers
         define_method(:act, &block)
       end
     else
       Class.new do
         include Node
+        extend NodeHelpers
         define_method(:act, &block)
         define_method(:to_h) { {} }
 
@@ -17,6 +19,10 @@ module BehaviourNodeGraph
         end
       end
     end
+  end
+
+  module NodeHelpers
+    attr_accessor :inputs, :outputs
   end
 
 end
