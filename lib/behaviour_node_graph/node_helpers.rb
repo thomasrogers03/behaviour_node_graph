@@ -22,7 +22,7 @@ module BehaviourNodeGraph
   end
 
   module NodeHelpers
-    attr_accessor :inputs, :outputs
+    attr_accessor :inputs, :outputs, :output_nodes
   end
 
 end

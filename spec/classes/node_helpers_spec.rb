@@ -41,6 +41,19 @@ module BehaviourNodeGraph
       end
     end
 
+    describe '.output_nodes=' do
+      let(:output_nodes) { Faker::Lorem.words }
+      subject { node_klass }
+      before { node_klass.output_nodes = output_nodes }
+
+      its(:output_nodes) { is_expected.to eq(output_nodes) }
+
+      context 'with attributes' do
+        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+        its(:output_nodes) { is_expected.to eq(output_nodes) }
+      end
+    end
+
     it { is_expected.to be_a_kind_of(Node) }
     its(:to_h) { is_expected.to eq({}) }
     its(:act) { is_expected.to eq(act_result) }
