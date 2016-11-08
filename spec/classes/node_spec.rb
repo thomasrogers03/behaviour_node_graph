@@ -21,6 +21,7 @@ module BehaviourNodeGraph
       its(:inputs) { is_expected.to eq([]) }
       its(:outputs) { is_expected.to eq([]) }
       its(:output_nodes) { is_expected.to eq([]) }
+      its(:properties) { is_expected.to eq([]) }
     end
 
     describe '.new_node' do
