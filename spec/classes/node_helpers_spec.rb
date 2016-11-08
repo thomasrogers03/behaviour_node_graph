@@ -16,41 +16,53 @@ module BehaviourNodeGraph
     subject { node }
 
     describe '.inputs=' do
-      let(:inputs) { Faker::Lorem.words }
       subject { node_klass }
-      before { node_klass.inputs = inputs }
+      its(:inputs) { is_expected.to eq([]) }
 
-      its(:inputs) { is_expected.to eq(inputs) }
+      context 'when set' do
+        let(:inputs) { Faker::Lorem.words }
+        before { node_klass.inputs = inputs }
 
-      context 'with attributes' do
-        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
         its(:inputs) { is_expected.to eq(inputs) }
+
+        context 'with attributes' do
+          let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+          its(:inputs) { is_expected.to eq(inputs) }
+        end
       end
     end
 
     describe '.outputs=' do
-      let(:outputs) { Faker::Lorem.words }
       subject { node_klass }
-      before { node_klass.outputs = outputs }
+      its(:outputs) { is_expected.to eq([]) }
 
-      its(:outputs) { is_expected.to eq(outputs) }
+      context 'when set' do
+        let(:outputs) { Faker::Lorem.words }
+        before { node_klass.outputs = outputs }
 
-      context 'with attributes' do
-        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
         its(:outputs) { is_expected.to eq(outputs) }
+
+        context 'with attributes' do
+          let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+          its(:outputs) { is_expected.to eq(outputs) }
+        end
       end
     end
 
     describe '.output_nodes=' do
-      let(:output_nodes) { Faker::Lorem.words }
       subject { node_klass }
-      before { node_klass.output_nodes = output_nodes }
+      its(:output_nodes) { is_expected.to eq([]) }
 
-      its(:output_nodes) { is_expected.to eq(output_nodes) }
+      context 'when set' do
+        let(:output_nodes) { Faker::Lorem.words }
+        before { node_klass.output_nodes = output_nodes }
 
-      context 'with attributes' do
-        let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
         its(:output_nodes) { is_expected.to eq(output_nodes) }
+
+        context 'with attributes' do
+          let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
+          its(:output_nodes) { is_expected.to eq(output_nodes) }
+        end
       end
     end
 
