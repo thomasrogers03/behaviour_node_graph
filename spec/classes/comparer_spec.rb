@@ -19,6 +19,13 @@ module BehaviourNodeGraph
       context.values[rhs] = rhs_value
     end
 
+    describe '.inputs' do
+      subject { Comparer }
+
+      its(:inputs) { is_expected.to eq([:lhs, :rhs]) }
+      its(:outputs) { is_expected.to eq([:result]) }
+    end
+
     it { is_expected.to be_a_kind_of(Node) }
 
     describe '#act' do

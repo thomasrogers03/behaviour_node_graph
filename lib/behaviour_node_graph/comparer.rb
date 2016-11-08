@@ -13,4 +13,6 @@ module BehaviourNodeGraph
     comparison = (context.values[lhs] <=> context.values[rhs]) + 1
     context.values[target] = Comparison::MAP[operator][comparison]
   end
+  Comparer.inputs = [:lhs, :rhs]
+  Comparer.outputs = [:result]
 end
