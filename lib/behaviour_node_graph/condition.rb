@@ -2,11 +2,27 @@ module BehaviourNodeGraph
   class Condition
     include Graphing
 
+    INPUTS = [:condition].freeze
+    OUTPUTS = [].freeze
+    OUTPUT_NODES = [:true, :false].freeze
+
     attr_reader :id, :true_node, :false_node, :condition_source, :next_node
     attr_accessor :context
 
     def self.new_node(true_node, false_node, condition_source)
       new(SecureRandom.base64, true_node, false_node, condition_source)
+    end
+
+    def self.inputs
+      INPUTS
+    end
+
+    def self.outputs
+      OUTPUTS
+    end
+
+    def self.output_nodes
+      OUTPUT_NODES
     end
 
     def initialize(id, true_node = nil, false_node = nil, condition_source = nil)

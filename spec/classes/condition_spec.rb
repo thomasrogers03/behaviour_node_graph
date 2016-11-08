@@ -11,6 +11,14 @@ module BehaviourNodeGraph
 
     subject { condition }
 
+    describe 'inputs and outputs' do
+      subject { Condition }
+
+      its(:inputs) { is_expected.to eq([:condition]) }
+      its(:outputs) { is_expected.to eq([]) }
+      its(:output_nodes) { is_expected.to eq([:true, :false]) }
+    end
+
     describe '.load_from_graph' do
       let(:graph) { {} }
       let(:node_graph) { {} }
