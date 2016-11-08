@@ -7,7 +7,7 @@ module BehaviourNodeGraph
     let(:lhs_node) { node_klass.new_node }
     let(:rhs_node) { node_klass.new_node }
     let(:condition_source) { SecureRandom.base64 }
-    let(:condition) { Condition.new(node_id, lhs_node, rhs_node, condition_source) }
+    let(:condition) { Condition.new(node_id, condition_source, lhs_node, rhs_node) }
 
     subject { condition }
 
@@ -52,7 +52,7 @@ module BehaviourNodeGraph
 
     describe '.new_node' do
       before { allow(SecureRandom).to receive(:base64).and_return(node_id) }
-      subject { Condition.new_node(lhs_node, rhs_node, condition_source) }
+      subject { Condition.new_node(condition_source, lhs_node, rhs_node) }
 
       its(:id) { is_expected.to eq(node_id) }
       its(:true_node) { is_expected.to eq(lhs_node) }

@@ -9,7 +9,7 @@ module BehaviourNodeGraph
     }.freeze
   end
 
-  Comparer = BehaviourNodeGraph.define_simple_node(:target, :lhs, :rhs, :operator) do
+  Comparer = BehaviourNodeGraph.define_simple_node(:lhs, :rhs, :target, :operator) do
     comparison = (context.values[lhs] <=> context.values[rhs]) + 1
     context.values[target] = Comparison::MAP[operator][comparison]
   end

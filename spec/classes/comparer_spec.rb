@@ -10,7 +10,7 @@ module BehaviourNodeGraph
     let(:lhs_value) { 1 }
     let(:rhs_value) { 0 }
     let(:operator) { :gt }
-    let(:comparer) { Comparer.new_node(target, lhs, rhs, operator) }
+    let(:comparer) { Comparer.new_node(lhs, rhs, target, operator) }
 
     subject { comparer }
 

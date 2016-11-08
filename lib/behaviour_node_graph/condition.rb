@@ -10,8 +10,8 @@ module BehaviourNodeGraph
     attr_reader :id, :true_node, :false_node, :condition_source, :next_node
     attr_accessor :context
 
-    def self.new_node(true_node, false_node, condition_source)
-      new(SecureRandom.base64, true_node, false_node, condition_source)
+    def self.new_node(condition_source, true_node, false_node)
+      new(SecureRandom.base64, condition_source, true_node, false_node)
     end
 
     def self.inputs
@@ -22,7 +22,7 @@ module BehaviourNodeGraph
       OUTPUT_NODES
     end
 
-    def initialize(id, true_node = nil, false_node = nil, condition_source = nil)
+    def initialize(id, condition_source = nil, true_node = nil, false_node = nil)
       @id = id
       @true_node = true_node
       @false_node = false_node
