@@ -15,56 +15,27 @@ module BehaviourNodeGraph
 
     subject { node }
 
-    describe '.inputs=' do
+    shared_examples_for 'node metadata' do |name|
       subject { node_klass }
-      its(:inputs) { is_expected.to eq([]) }
+      its(name) { is_expected.to eq([]) }
 
       context 'when set' do
-        let(:inputs) { Faker::Lorem.words }
-        before { node_klass.inputs = inputs }
+        let(:attribute_value) { Faker::Lorem.words }
+        before { node_klass.public_send(:"#{name}=", attribute_value) }
 
-        its(:inputs) { is_expected.to eq(inputs) }
+        its(name) { is_expected.to eq(attribute_value) }
 
         context 'with attributes' do
           let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
-          its(:inputs) { is_expected.to eq(inputs) }
+          its(name) { is_expected.to eq(attribute_value) }
         end
       end
     end
 
-    describe '.outputs=' do
-      subject { node_klass }
-      its(:outputs) { is_expected.to eq([]) }
-
-      context 'when set' do
-        let(:outputs) { Faker::Lorem.words }
-        before { node_klass.outputs = outputs }
-
-        its(:outputs) { is_expected.to eq(outputs) }
-
-        context 'with attributes' do
-          let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
-          its(:outputs) { is_expected.to eq(outputs) }
-        end
-      end
-    end
-
-    describe '.output_nodes=' do
-      subject { node_klass }
-      its(:output_nodes) { is_expected.to eq([]) }
-
-      context 'when set' do
-        let(:output_nodes) { Faker::Lorem.words }
-        before { node_klass.output_nodes = output_nodes }
-
-        its(:output_nodes) { is_expected.to eq(output_nodes) }
-
-        context 'with attributes' do
-          let(:attributes) { Faker::Lorem.words.map(&:to_sym) }
-          its(:output_nodes) { is_expected.to eq(output_nodes) }
-        end
-      end
-    end
+    it_behaves_like 'node metadata', :inputs
+    it_behaves_like 'node metadata', :outputs
+    it_behaves_like 'node metadata', :output_nodes
+    it_behaves_like 'node metadata', :properties
 
     it { is_expected.to be_a_kind_of(Node) }
     its(:to_h) { is_expected.to eq({}) }

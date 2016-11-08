@@ -22,12 +22,13 @@ module BehaviourNodeGraph
   end
 
   module NodeHelpers
-    attr_accessor :inputs, :outputs, :output_nodes
+    attr_accessor :inputs, :outputs, :output_nodes, :properties
 
     def self.extended(base)
       base.inputs = []
       base.outputs = []
       base.output_nodes = []
+      base.properties = []
     end
   end
 
