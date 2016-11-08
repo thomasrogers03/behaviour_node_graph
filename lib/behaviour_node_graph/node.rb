@@ -17,26 +17,10 @@ module BehaviourNodeGraph
     end
 
     module ClassMethods
-      NO_INPUTS = [].freeze
+      include DefaultProperties
 
       def new_node(*args)
         new(SecureRandom.base64, *args)
-      end
-
-      def inputs
-        NO_INPUTS
-      end
-
-      def outputs
-        NO_INPUTS
-      end
-
-      def output_nodes
-        NO_INPUTS
-      end
-
-      def properties
-        NO_INPUTS
       end
     end
 
