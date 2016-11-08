@@ -10,6 +10,15 @@ module BehaviourNodeGraph
 
     subject { node_collection }
 
+    describe 'inputs and outputs' do
+      subject { NodeCollection }
+
+      its(:inputs) { is_expected.to eq([]) }
+      its(:outputs) { is_expected.to eq([]) }
+      its(:output_nodes) { is_expected.to eq([[:children]]) }
+      its(:properties) { is_expected.to eq([]) }
+    end
+
     describe '.load_from_graph' do
       let(:node) { node_klass.new(SecureRandom.base64) }
       let(:list_of_nodes) { [node] }
