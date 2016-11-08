@@ -17,8 +17,18 @@ module BehaviourNodeGraph
     end
 
     module ClassMethods
+      NO_INPUTS = [].freeze
+
       def new_node(*args)
         new(SecureRandom.base64, *args)
+      end
+
+      def inputs
+        NO_INPUTS
+      end
+
+      def outputs
+        NO_INPUTS
       end
     end
 
