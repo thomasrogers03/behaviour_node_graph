@@ -19,7 +19,7 @@ module BehaviourNodeGraph
       context.values[rhs] = rhs_value
     end
 
-    describe '.inputs' do
+    describe 'inputs and outputs' do
       subject { Comparer }
 
       its(:inputs) { is_expected.to eq([:lhs, :rhs]) }
