@@ -1,6 +1,7 @@
 module BehaviourNodeGraph
   class Condition
     include Graphing
+    extend DefaultProperties
 
     INPUTS = [:condition].freeze
     OUTPUTS = [].freeze
@@ -17,16 +18,8 @@ module BehaviourNodeGraph
       INPUTS
     end
 
-    def self.outputs
-      OUTPUTS
-    end
-
     def self.output_nodes
       OUTPUT_NODES
-    end
-
-    def self.properties
-      OUTPUTS
     end
 
     def initialize(id, true_node = nil, false_node = nil, condition_source = nil)
