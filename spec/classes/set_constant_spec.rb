@@ -10,6 +10,13 @@ module BehaviourNodeGraph
 
     subject { node }
 
+    describe 'node metadata' do
+      subject { SetConstant }
+
+      its(:outputs) { is_expected.to eq([:target]) }
+      its(:properties) { is_expected.to eq([:value]) }
+    end
+
     it { is_expected.to be_a_kind_of(Node) }
 
     describe '#act' do
