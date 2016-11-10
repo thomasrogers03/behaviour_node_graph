@@ -1,7 +1,7 @@
 module BehaviourNodeGraph
   module Node
     attr_reader :id
-    attr_accessor :context, :next_node
+    attr_accessor :context, :next_nodes
 
     def self.load_from_graph(graph, node_id, node_graph)
       node_graph[node_id] ||= begin
@@ -33,9 +33,11 @@ module BehaviourNodeGraph
       unless graph[id]
         instructions = Instructions.new(id: id, node_type: self.class, attributes: to_h)
         graph[id] = instructions
-        if next_node
-          next_node.add_to_graph(graph)
-          instructions.next_node = next_node.id
+        if next_nodes
+          instructions.next_nodes = next_nodes.map do |node|
+            node.add_to_graph(graph)
+            node.id
+          end
         end
       end
     end
@@ -44,7 +46,11 @@ module BehaviourNodeGraph
       instructions[:attributes].each do |attribute, value|
         public_send(:"#{attribute}=", value)
       end
-      self.next_node = Node.load_from_graph(graph, instructions.next_node, node_graph) if instructions[:next_node]
+      if instructions[:next_nodes]
+        self.next_nodes = instructions[:next_nodes].map do |node|
+          Node.load_from_graph(graph, node, node_graph)
+        end
+      end
     end
   end
 end
