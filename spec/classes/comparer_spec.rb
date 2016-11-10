@@ -24,6 +24,7 @@ module BehaviourNodeGraph
 
       its(:inputs) { is_expected.to eq([:lhs, :rhs]) }
       its(:outputs) { is_expected.to eq([:result]) }
+      its(:properties) { is_expected.to eq([:operator]) }
     end
 
     it { is_expected.to be_a_kind_of(Node) }
@@ -34,6 +35,17 @@ module BehaviourNodeGraph
       before do
         comparer.context = context
         comparer.act
+      end
+
+      context 'when the operator is provided as a string' do
+        let(:operator) { 'lt' }
+
+        it { is_expected.to eq(false) }
+
+        context 'with a greater rhs' do
+          let(:rhs_value) { 2 }
+          it { is_expected.to eq(true) }
+        end
       end
 
       describe 'strictly greater than' do
