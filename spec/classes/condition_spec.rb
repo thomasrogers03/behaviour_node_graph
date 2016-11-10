@@ -108,9 +108,9 @@ module BehaviourNodeGraph
         subject.context = context
       end
 
-      it 'should set the next_node' do
+      it 'should set the next_nodes' do
         subject.act
-        expect(subject.next_node).to eq(lhs_node)
+        expect(subject.next_nodes).to eq([lhs_node])
       end
 
       context 'when the condition value is false' do
@@ -118,7 +118,7 @@ module BehaviourNodeGraph
 
         it 'should set the next_node' do
           subject.act
-          expect(subject.next_node).to eq(rhs_node)
+          expect(subject.next_nodes).to eq([rhs_node])
         end
       end
     end

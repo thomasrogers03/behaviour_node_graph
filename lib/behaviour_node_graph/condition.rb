@@ -7,7 +7,7 @@ module BehaviourNodeGraph
     OUTPUTS = [].freeze
     OUTPUT_NODES = [:true, :false].freeze
 
-    attr_reader :id, :true_node, :false_node, :condition_source, :next_node
+    attr_reader :id, :true_node, :false_node, :condition_source, :next_nodes
     attr_accessor :context
 
     def self.new_node(condition_source, true_node, false_node)
@@ -51,7 +51,8 @@ module BehaviourNodeGraph
     end
 
     def act
-      @next_node = context.values[condition_source] ? @true_node : @false_node
+      next_node = context.values[condition_source] ? @true_node : @false_node
+      @next_nodes = [next_node]
     end
 
   end
