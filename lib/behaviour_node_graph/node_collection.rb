@@ -6,7 +6,7 @@ module BehaviourNodeGraph
     OUTPUT_NODES = [[:children]].freeze
 
     attr_reader :id, :children, :context_type
-    attr_accessor :context, :next_node
+    attr_accessor :context, :next_nodes
 
     def self.new_node(children, context_type = Context)
       new(SecureRandom.base64, children, context_type)
@@ -31,9 +31,11 @@ module BehaviourNodeGraph
           child.id
         end
         instructions.context_type = context_type unless context_type == Context
-        if next_node
-          next_node.add_to_graph(graph)
-          instructions.next_node = next_node.id
+        if next_nodes
+          instructions.next_nodes = next_nodes.map do |node|
+            node.add_to_graph(graph)
+            node.id
+          end
         end
       end
     end
@@ -43,7 +45,11 @@ module BehaviourNodeGraph
         Node.load_from_graph(graph, child_id, node_graph)
       end
       @context_type = instructions.context_type if instructions[:context_type]
-      self.next_node = Node.load_from_graph(graph, instructions.next_node, node_graph) if instructions[:next_node]
+      if instructions[:next_nodes]
+        self.next_nodes = instructions[:next_nodes].map do |node|
+          Node.load_from_graph(graph, node, node_graph)
+        end
+      end
     end
 
     def act
