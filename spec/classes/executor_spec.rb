@@ -28,18 +28,30 @@ module BehaviourNodeGraph
 
       context 'with a node' do
         let(:node_two) { nil }
-        let(:node) { double(:node, act: nil, :context= => nil, next_node: node_two) }
+        let(:node_list) { [] }
+        let(:node) { double(:node, act: nil, :context= => nil, next_nodes: node_list) }
 
         it_behaves_like 'performing an action on a node', :node
 
         context 'with another node' do
           let(:node_three) { nil }
-          let(:node_two) { double(:node, act: nil, :context= => nil, next_node: node_three) }
+          let(:node_list_two) { [] }
+          let(:node_two) { double(:node, act: nil, :context= => nil, next_nodes: node_list_two) }
+          let(:node_list) { [node_two] }
 
           it_behaves_like 'performing an action on a node', :node_two
 
+          context 'with multiple next nodes' do
+            let(:node_three) { double(:node, act: nil, :context= => nil, next_nodes: nil) }
+            let(:node_list) { [node_two, node_three] }
+
+            it_behaves_like 'performing an action on a node', :node_two
+            it_behaves_like 'performing an action on a node', :node_three
+          end
+
           context 'with many nodes linked together' do
-            let(:node_three) { double(:node, act: nil, :context= => nil, next_node: nil) }
+            let(:node_three) { double(:node, act: nil, :context= => nil, next_nodes: nil) }
+            let(:node_list_two) { [node_three] }
 
             it_behaves_like 'performing an action on a node', :node_three
           end
