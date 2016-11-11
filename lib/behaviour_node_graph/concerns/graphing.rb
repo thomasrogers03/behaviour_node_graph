@@ -10,6 +10,12 @@ module BehaviourNodeGraph
 
     private
 
+    def add_next_nodes_to_graph(graph, instructions)
+      if next_nodes
+        instructions.next_nodes = add_children_to_graph(graph, next_nodes)
+      end
+    end
+
     def add_children_to_graph(graph, children)
       children.map do |node|
         node.add_to_graph(graph)

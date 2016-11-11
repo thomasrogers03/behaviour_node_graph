@@ -28,9 +28,7 @@ module BehaviourNodeGraph
         instructions.id = id
         instructions.children = add_children_to_graph(graph, children)
         instructions.context_type = context_type unless context_type == Context
-        if next_nodes
-          instructions.next_nodes = add_children_to_graph(graph, next_nodes)
-        end
+        add_next_nodes_to_graph(graph, instructions)
       end
     end
 

@@ -35,9 +35,7 @@ module BehaviourNodeGraph
       unless graph[id]
         instructions = Instructions.new(id: id, node_type: self.class, attributes: to_h)
         graph[id] = instructions
-        if next_nodes
-          instructions.next_nodes = add_children_to_graph(graph, next_nodes)
-        end
+        add_next_nodes_to_graph(graph, instructions)
       end
     end
 
