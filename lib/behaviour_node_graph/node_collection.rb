@@ -26,16 +26,10 @@ module BehaviourNodeGraph
       add_node_to_graph(graph) do |instructions|
         instructions.node_type = self.class
         instructions.id = id
-        instructions.children = children.map do |child|
-          child.add_to_graph(graph)
-          child.id
-        end
+        instructions.children = add_children_to_graph(graph, children)
         instructions.context_type = context_type unless context_type == Context
         if next_nodes
-          instructions.next_nodes = next_nodes.map do |node|
-            node.add_to_graph(graph)
-            node.id
-          end
+          instructions.next_nodes = add_children_to_graph(graph, next_nodes)
         end
       end
     end

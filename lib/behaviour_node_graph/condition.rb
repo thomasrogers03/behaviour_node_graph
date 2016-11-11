@@ -34,15 +34,8 @@ module BehaviourNodeGraph
         instructions.node_type = self.class
         instructions.id = id
 
-        instructions.true_nodes = true_nodes.map do |node|
-          node.add_to_graph(graph)
-          node.id
-        end
-
-        instructions.false_nodes = false_nodes.map do |node|
-          node.add_to_graph(graph)
-          node.id
-        end
+        instructions.true_nodes = add_children_to_graph(graph, true_nodes)
+        instructions.false_nodes = add_children_to_graph(graph, false_nodes)
 
         instructions.condition_source = condition_source
       end

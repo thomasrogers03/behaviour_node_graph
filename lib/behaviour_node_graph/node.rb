@@ -1,5 +1,7 @@
 module BehaviourNodeGraph
   module Node
+    include Graphing
+
     attr_reader :id
     attr_accessor :context, :next_nodes
 
@@ -34,10 +36,7 @@ module BehaviourNodeGraph
         instructions = Instructions.new(id: id, node_type: self.class, attributes: to_h)
         graph[id] = instructions
         if next_nodes
-          instructions.next_nodes = next_nodes.map do |node|
-            node.add_to_graph(graph)
-            node.id
-          end
+          instructions.next_nodes = add_children_to_graph(graph, next_nodes)
         end
       end
     end
