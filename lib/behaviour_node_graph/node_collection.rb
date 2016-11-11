@@ -3,7 +3,7 @@ module BehaviourNodeGraph
     include Graphing
     extend DefaultProperties
 
-    OUTPUT_NODES = [[:children]].freeze
+    OUTPUT_NODES = [:children].freeze
 
     attr_reader :id, :children, :context_type
     attr_accessor :context, :next_nodes
