@@ -7,11 +7,11 @@ module BehaviourNodeGraph
     OUTPUTS = [].freeze
     OUTPUT_NODES = [:true, :false].freeze
 
-    attr_reader :id, :true_node, :false_node, :condition_source, :next_nodes
+    attr_reader :id, :true_nodes, :false_nodes, :condition_source, :next_nodes
     attr_accessor :context
 
-    def self.new_node(condition_source, true_node, false_node)
-      new(SecureRandom.base64, condition_source, true_node, false_node)
+    def self.new_node(condition_source, true_nodes, false_nodes)
+      new(SecureRandom.base64, condition_source, true_nodes, false_nodes)
     end
 
     def self.inputs
@@ -22,10 +22,10 @@ module BehaviourNodeGraph
       OUTPUT_NODES
     end
 
-    def initialize(id, condition_source = nil, true_node = nil, false_node = nil)
+    def initialize(id, condition_source = nil, true_nodes = nil, false_nodes = nil)
       @id = id
-      @true_node = true_node
-      @false_node = false_node
+      @true_nodes = true_nodes
+      @false_nodes = false_nodes
       @condition_source = condition_source
     end
 
@@ -34,25 +34,32 @@ module BehaviourNodeGraph
         instructions.node_type = self.class
         instructions.id = id
 
-        true_node.add_to_graph(graph)
-        instructions.true_node = true_node.id
+        instructions.true_nodes = true_nodes.map do |node|
+          node.add_to_graph(graph)
+          node.id
+        end
 
-        false_node.add_to_graph(graph)
-        instructions.false_node = false_node.id
+        instructions.false_nodes = false_nodes.map do |node|
+          node.add_to_graph(graph)
+          node.id
+        end
 
         instructions.condition_source = condition_source
       end
     end
 
     def load_from_graph(graph, instructions, node_graph)
-      @true_node = Node.load_from_graph(graph, instructions.true_node, node_graph)
-      @false_node = Node.load_from_graph(graph, instructions.false_node, node_graph)
+      @true_nodes = instructions.true_nodes.map do |node|
+        Node.load_from_graph(graph, node, node_graph)
+      end
+      @false_nodes = instructions.false_nodes.map do |node|
+        Node.load_from_graph(graph, node, node_graph)
+      end
       @condition_source = instructions.condition_source
     end
 
     def act
-      next_node = context.values[condition_source] ? @true_node : @false_node
-      @next_nodes = [next_node]
+      @next_nodes = context.values[condition_source] ? @true_nodes : @false_nodes
     end
 
   end

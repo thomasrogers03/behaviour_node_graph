@@ -6,8 +6,10 @@ module BehaviourNodeGraph
     let(:node_klass) { BehaviourNodeGraph.define_simple_node {} }
     let(:lhs_node) { node_klass.new_node }
     let(:rhs_node) { node_klass.new_node }
+    let(:list_of_lhs_nodes) { [lhs_node] }
+    let(:list_of_rhs_nodes) { [rhs_node] }
     let(:condition_source) { SecureRandom.base64 }
-    let(:condition) { Condition.new(node_id, condition_source, lhs_node, rhs_node) }
+    let(:condition) { Condition.new(node_id, condition_source, list_of_lhs_nodes, list_of_rhs_nodes) }
 
     subject { condition }
 
@@ -29,8 +31,18 @@ module BehaviourNodeGraph
       before { condition.add_to_graph(graph) }
 
       its(:id) { is_expected.to eq(node_id) }
-      its(:true_node) { is_expected.to eq(lhs_node) }
-      its(:false_node) { is_expected.to eq(rhs_node) }
+      its(:true_nodes) { is_expected.to eq(list_of_lhs_nodes) }
+      its(:false_nodes) { is_expected.to eq(list_of_rhs_nodes) }
+
+      context 'with multiple true/false nodes' do
+        let(:lhs_node_two) { node_klass.new_node }
+        let(:rhs_node_two) { node_klass.new_node }
+        let(:list_of_lhs_nodes) { [lhs_node, lhs_node_two] }
+        let(:list_of_rhs_nodes) { [rhs_node, rhs_node_two] }
+
+        its(:true_nodes) { is_expected.to eq(list_of_lhs_nodes) }
+        its(:false_nodes) { is_expected.to eq(list_of_rhs_nodes) }
+      end
 
       it 'should save the node for later' do
         subject
@@ -52,18 +64,28 @@ module BehaviourNodeGraph
 
     describe '.new_node' do
       before { allow(SecureRandom).to receive(:base64).and_return(node_id) }
-      subject { Condition.new_node(condition_source, lhs_node, rhs_node) }
+      subject { Condition.new_node(condition_source, list_of_lhs_nodes, list_of_rhs_nodes) }
 
       its(:id) { is_expected.to eq(node_id) }
-      its(:true_node) { is_expected.to eq(lhs_node) }
-      its(:false_node) { is_expected.to eq(rhs_node) }
+      its(:true_nodes) { is_expected.to eq(list_of_lhs_nodes) }
+      its(:false_nodes) { is_expected.to eq(list_of_rhs_nodes) }
       its(:condition_source) { is_expected.to eq(condition_source) }
     end
 
     its(:id) { is_expected.to eq(node_id) }
-    its(:true_node) { is_expected.to eq(lhs_node) }
-    its(:false_node) { is_expected.to eq(rhs_node) }
+    its(:true_nodes) { is_expected.to eq(list_of_lhs_nodes) }
+    its(:false_nodes) { is_expected.to eq(list_of_rhs_nodes) }
     its(:condition_source) { is_expected.to eq(condition_source) }
+
+    context 'with multiple true/false nodes' do
+      let(:lhs_node_two) { node_klass.new_node }
+      let(:rhs_node_two) { node_klass.new_node }
+      let(:list_of_lhs_nodes) { [lhs_node, lhs_node_two] }
+      let(:list_of_rhs_nodes) { [rhs_node, rhs_node_two] }
+
+      its(:true_nodes) { is_expected.to eq(list_of_lhs_nodes) }
+      its(:false_nodes) { is_expected.to eq(list_of_rhs_nodes) }
+    end
 
     describe '#add_to_graph' do
       let(:graph) { {} }
@@ -72,17 +94,32 @@ module BehaviourNodeGraph
       subject { graph[node_id] }
 
       before do
-        lhs_node.add_to_graph(child_graph)
-        rhs_node.add_to_graph(child_graph)
+        list_of_lhs_nodes.each { |node| node.add_to_graph(child_graph) }
+        list_of_rhs_nodes.each { |node| node.add_to_graph(child_graph) }
         condition.add_to_graph(graph)
       end
 
       its(:node_type) { is_expected.to eq(Condition) }
       its(:id) { is_expected.to eq(node_id) }
-      its(:true_node) { is_expected.to eq(lhs_node.id) }
-      its(:false_node) { is_expected.to eq(rhs_node.id) }
+      its(:true_nodes) { is_expected.to include(lhs_node.id) }
+      its(:false_nodes) { is_expected.to include(rhs_node.id) }
       its(:condition_source) { is_expected.to eq(condition_source) }
       it { expect(graph).to include(child_graph) }
+
+      context 'with multiple true/false nodes' do
+        let(:lhs_node_two) { node_klass.new_node }
+        let(:rhs_node_two) { node_klass.new_node }
+        let(:list_of_lhs_nodes) { [lhs_node, lhs_node_two] }
+        let(:list_of_rhs_nodes) { [rhs_node, rhs_node_two] }
+
+        its(:true_nodes) { is_expected.to include(lhs_node.id) }
+        its(:false_nodes) { is_expected.to include(rhs_node.id) }
+
+        its(:true_nodes) { is_expected.to include(lhs_node_two.id) }
+        its(:false_nodes) { is_expected.to include(rhs_node_two.id) }
+
+        it { expect(graph).to include(child_graph) }
+      end
 
       context 'when this node has already been added' do
         let(:node_value) { Faker::Lorem.sentence }
@@ -100,6 +137,8 @@ module BehaviourNodeGraph
     end
 
     describe '#act' do
+      let(:lhs_node_two) { node_klass.new_node }
+      let(:rhs_node_two) { node_klass.new_node }
       let(:condition_value) { true }
       let(:context) { Context.new }
 
@@ -110,7 +149,17 @@ module BehaviourNodeGraph
 
       it 'should set the next_nodes' do
         subject.act
-        expect(subject.next_nodes).to eq([lhs_node])
+        expect(subject.next_nodes).to eq(list_of_lhs_nodes)
+      end
+
+      context 'with multiple true/false nodes' do
+        let(:list_of_lhs_nodes) { [lhs_node, lhs_node_two] }
+        let(:list_of_rhs_nodes) { [rhs_node, rhs_node_two] }
+
+        it 'should set the next_nodes' do
+          subject.act
+          expect(subject.next_nodes).to eq(list_of_lhs_nodes)
+        end
       end
 
       context 'when the condition value is false' do
@@ -118,7 +167,17 @@ module BehaviourNodeGraph
 
         it 'should set the next_node' do
           subject.act
-          expect(subject.next_nodes).to eq([rhs_node])
+          expect(subject.next_nodes).to eq(list_of_rhs_nodes)
+        end
+
+        context 'with multiple true/false nodes' do
+          let(:list_of_lhs_nodes) { [lhs_node, lhs_node_two] }
+          let(:list_of_rhs_nodes) { [rhs_node, rhs_node_two] }
+
+          it 'should set the next_nodes' do
+            subject.act
+            expect(subject.next_nodes).to eq(list_of_rhs_nodes)
+          end
         end
       end
     end
