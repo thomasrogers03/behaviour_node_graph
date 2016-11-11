@@ -22,5 +22,18 @@ module BehaviourNodeGraph
         node.id
       end
     end
+
+    def load_next_nodes_from_graph(graph, instructions, node_graph)
+      if instructions[:next_nodes]
+        self.next_nodes = load_children_from_graph(graph, instructions, :next_nodes, node_graph)
+      end
+    end
+
+    def load_children_from_graph(graph, instructions, key, node_graph)
+      instructions[key].map do |node|
+        Node.load_from_graph(graph, node, node_graph)
+      end
+    end
+
   end
 end

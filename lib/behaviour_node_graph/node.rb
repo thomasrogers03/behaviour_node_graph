@@ -43,11 +43,7 @@ module BehaviourNodeGraph
       instructions[:attributes].each do |attribute, value|
         public_send(:"#{attribute}=", value)
       end
-      if instructions[:next_nodes]
-        self.next_nodes = instructions[:next_nodes].map do |node|
-          Node.load_from_graph(graph, node, node_graph)
-        end
-      end
+      load_next_nodes_from_graph(graph, instructions, node_graph)
     end
   end
 end

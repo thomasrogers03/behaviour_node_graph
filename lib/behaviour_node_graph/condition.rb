@@ -42,12 +42,8 @@ module BehaviourNodeGraph
     end
 
     def load_from_graph(graph, instructions, node_graph)
-      @true_nodes = instructions.true_nodes.map do |node|
-        Node.load_from_graph(graph, node, node_graph)
-      end
-      @false_nodes = instructions.false_nodes.map do |node|
-        Node.load_from_graph(graph, node, node_graph)
-      end
+      @true_nodes = load_children_from_graph(graph, instructions, :true_nodes, node_graph)
+      @false_nodes = load_children_from_graph(graph, instructions, :false_nodes, node_graph)
       @condition_source = instructions.condition_source
     end
 

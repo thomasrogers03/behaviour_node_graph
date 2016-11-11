@@ -33,15 +33,9 @@ module BehaviourNodeGraph
     end
 
     def load_from_graph(graph, instructions, node_graph)
-      @children = instructions.children.map do |child_id|
-        Node.load_from_graph(graph, child_id, node_graph)
-      end
+      @children = load_children_from_graph(graph, instructions, :children, node_graph)
       @context_type = instructions.context_type if instructions[:context_type]
-      if instructions[:next_nodes]
-        self.next_nodes = instructions[:next_nodes].map do |node|
-          Node.load_from_graph(graph, node, node_graph)
-        end
-      end
+      load_next_nodes_from_graph(graph, instructions, node_graph)
     end
 
     def act
