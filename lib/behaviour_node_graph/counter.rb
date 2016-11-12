@@ -3,5 +3,5 @@ module BehaviourNodeGraph
     context.values[target] = (context.values[target] || 0) + increment
   end
   Counter.inputs = [:target]
-  Counter.properties = [:increment]
+  Counter.properties = {increment: :int}
 end

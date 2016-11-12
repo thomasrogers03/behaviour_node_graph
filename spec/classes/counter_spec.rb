@@ -19,7 +19,7 @@ module BehaviourNodeGraph
 
     describe '.properties' do
       subject { Counter }
-      its(:properties) { is_expected.to eq([:increment]) }
+      its(:properties) { is_expected.to eq(increment: :int) }
     end
 
     it { is_expected.to be_a_kind_of(Node) }
