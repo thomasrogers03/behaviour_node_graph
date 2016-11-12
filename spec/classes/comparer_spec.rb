@@ -24,7 +24,7 @@ module BehaviourNodeGraph
 
       its(:inputs) { is_expected.to eq([:lhs, :rhs]) }
       its(:outputs) { is_expected.to eq([:result]) }
-      its(:properties) { is_expected.to eq([:operator]) }
+      its(:properties) { is_expected.to eq(operator: [:gt, :ge, :eq, :le, :lt]) }
     end
 
     it { is_expected.to be_a_kind_of(Node) }

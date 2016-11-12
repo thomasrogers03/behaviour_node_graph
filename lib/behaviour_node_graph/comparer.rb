@@ -15,5 +15,5 @@ module BehaviourNodeGraph
   end
   Comparer.inputs = [:lhs, :rhs]
   Comparer.outputs = [:result]
-  Comparer.properties = [:operator]
+  Comparer.properties = {operator: Comparison::MAP.keys}
 end
