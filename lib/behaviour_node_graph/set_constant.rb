@@ -3,5 +3,5 @@ module BehaviourNodeGraph
     context.values[target] = value
   end
   SetConstant.outputs = [:target]
-  SetConstant.properties = [:value]
+  SetConstant.properties = {value: :any}
 end

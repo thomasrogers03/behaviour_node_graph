@@ -14,7 +14,7 @@ module BehaviourNodeGraph
       subject { SetConstant }
 
       its(:outputs) { is_expected.to eq([:target]) }
-      its(:properties) { is_expected.to eq([:value]) }
+      its(:properties) { is_expected.to eq(value: :any) }
     end
 
     it { is_expected.to be_a_kind_of(Node) }
