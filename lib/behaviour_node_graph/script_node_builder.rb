@@ -5,5 +5,15 @@ module BehaviourNodeGraph
     end
 
     attr_accessor :node_cache
+
+    def fetch(code)
+      node_cache[script_sha(code)] ||= build(code)
+    end
+
+    private
+
+    def script_sha(code)
+      Digest::SHA1.base64digest(code)
+    end
   end
 end
