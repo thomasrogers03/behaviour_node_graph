@@ -1,10 +1,19 @@
 module BehaviourNodeGraph
   module ScriptNodeBuilder
-    def self.extended(base)
-      base.node_cache = LruRedux::TTL::ThreadSafeCache.new(100, 5 * 60)
+    @builders = {}
+    class << self
+      attr_reader :builders
+
+      def extended(base)
+        base.node_cache = LruRedux::TTL::ThreadSafeCache.new(100, 5 * 60)
+      end
     end
 
     attr_accessor :node_cache
+
+    def register(language)
+      ScriptNodeBuilder.builders[language] = self
+    end
 
     def fetch(code)
       node_cache[script_sha(code)] ||= build(code)

@@ -3,9 +3,12 @@ require 'rspec'
 module BehaviourNodeGraph
   describe ScriptNodeBuilder do
 
-    let(:builder_klass) do
+    let(:language) { Faker::Lorem.word }
+    let!(:builder_klass) do
+      klass_language = language
       Class.new do
         extend ScriptNodeBuilder
+        register klass_language
 
         def self.build(code)
           Digest::MD5.hexdigest(code)
@@ -14,6 +17,12 @@ module BehaviourNodeGraph
     end
 
     subject { builder_klass }
+
+    describe '.register' do
+      subject { ScriptNodeBuilder.builders }
+
+      it { is_expected.to include(language => builder_klass) }
+    end
 
     describe '.node_cache' do
       let(:five_minutes) { 5 * 60 }
