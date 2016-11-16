@@ -55,6 +55,7 @@ GEM
     listen (3.0.5)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    lru_redux (1.1.0)
     lumberjack (1.0.9)
     method_source (0.8.2)
     nenv (0.2.0)
@@ -114,6 +115,7 @@ DEPENDENCIES
   guard
   guard-bundler
   guard-rspec
+  lru_redux
   rspec
   rspec-its
   sidekiq_bolt!
