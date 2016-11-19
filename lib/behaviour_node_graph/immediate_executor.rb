@@ -1,5 +1,5 @@
 module BehaviourNodeGraph
-  class Executor
+  class ImmediateExecutor
 
     def initialize(context)
       @context = context

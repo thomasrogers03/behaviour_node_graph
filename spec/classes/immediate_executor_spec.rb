@@ -1,12 +1,12 @@
 require 'rspec'
 
 module BehaviourNodeGraph
-  describe Executor do
+  describe ImmediateExecutor do
     let(:node) { nil }
     let(:list_of_nodes) { nil }
     let(:context) { Context.new }
 
-    subject { Executor.new(context) }
+    subject { ImmediateExecutor.new(context) }
 
     describe '#execute' do
       it 'does nothing' do
