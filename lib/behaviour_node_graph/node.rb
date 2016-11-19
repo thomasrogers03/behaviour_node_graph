@@ -3,7 +3,7 @@ module BehaviourNodeGraph
     include Graphing
 
     attr_reader :id
-    attr_accessor :context, :next_nodes
+    attr_accessor :context, :executor, :next_nodes
 
     def self.load_from_graph(graph, node_id, node_graph)
       node_graph[node_id] ||= begin

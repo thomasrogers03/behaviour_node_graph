@@ -8,7 +8,7 @@ module BehaviourNodeGraph
     OUTPUT_NODES = [:true, :false].freeze
 
     attr_reader :id, :true_nodes, :false_nodes, :condition_source, :next_nodes
-    attr_accessor :context
+    attr_accessor :context, :executor
 
     def self.new_node(condition_source, true_nodes, false_nodes)
       new(SecureRandom.base64, condition_source, true_nodes, false_nodes)

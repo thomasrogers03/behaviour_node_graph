@@ -8,6 +8,13 @@ module BehaviourNodeGraph
 
     before { subject.next_nodes = next_nodes }
 
+    describe '#executor' do
+      let(:executor) { Faker::Lorem.word }
+      before { subject.executor = executor }
+
+      its(:executor) { is_expected.to eq(executor) }
+    end
+
     describe '#next_nodes' do
       its(:next_nodes) { is_expected.to eq(next_nodes) }
     end

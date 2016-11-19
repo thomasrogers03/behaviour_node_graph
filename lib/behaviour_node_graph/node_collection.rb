@@ -6,7 +6,7 @@ module BehaviourNodeGraph
     OUTPUT_NODES = [:children].freeze
 
     attr_reader :id, :children, :context_type
-    attr_accessor :context, :next_nodes
+    attr_accessor :context, :executor, :next_nodes
 
     def self.new_node(children, context_type = Context)
       new(SecureRandom.base64, children, context_type)
