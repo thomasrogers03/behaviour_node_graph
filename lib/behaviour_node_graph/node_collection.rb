@@ -39,8 +39,14 @@ module BehaviourNodeGraph
     end
 
     def act
-      executor = ImmediateExecutor.new(self.context ||= Context.new)
-      executor.execute(children)
+      execute_nodes(self.context ||= Context.new, children)
+    end
+
+    private
+
+    def execute_nodes(context, nodes)
+      executor = ImmediateExecutor.new(context)
+      executor.execute(nodes)
     end
 
   end
