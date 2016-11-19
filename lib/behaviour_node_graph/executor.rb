@@ -5,19 +5,16 @@ module BehaviourNodeGraph
       @context = context
     end
 
-    def execute(node)
-      execute_internal([node]) if node
+    def execute(next_nodes)
+      execute_internal(next_nodes) if next_nodes
     end
 
     private
 
     def execute_internal(next_nodes)
-      if next_nodes
-        next_nodes.each do |node|
-          node.context = @context
-          node.act
-          execute_internal(node.next_nodes)
-        end
+      next_nodes.each do |node|
+        node.context = @context
+        node.act
       end
     end
 
