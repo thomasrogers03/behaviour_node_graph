@@ -40,7 +40,7 @@ module BehaviourNodeGraph
 
     def act
       executor = Executor.new(self.context ||= Context.new)
-      children.each { |child| executor.execute(child) }
+      executor.execute(children)
     end
 
   end
