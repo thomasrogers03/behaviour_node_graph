@@ -116,6 +116,7 @@ DEPENDENCIES
   guard-bundler
   guard-rspec
   lru_redux
+  pry
   rspec
   rspec-its
   sidekiq_bolt!

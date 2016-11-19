@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 group :development do
   gem 'concurrent-ruby', require: false
   gem 'lru_redux', require: false
+  gem 'pry'
   gem 'thomas_utils', github: 'thomasrogers03/thomas_utils', require: false
   gem 'sidekiq_bolt', github: 'thomasrogers03/sidekiq_bolt', require: false
 end
