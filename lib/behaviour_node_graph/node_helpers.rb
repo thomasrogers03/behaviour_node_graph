@@ -8,8 +8,9 @@ module BehaviourNodeGraph
         extend NodeHelpers
 
         define_method(:act) do
+          result = instance_exec(&block)
           execute_nodes(next_nodes)
-          instance_exec(&block)
+          result
         end
       end
     else
@@ -19,8 +20,9 @@ module BehaviourNodeGraph
         extend NodeHelpers
 
         define_method(:act) do
+          result = instance_exec(&block)
           execute_nodes(next_nodes)
-          instance_exec(&block)
+          result
         end
 
         define_method(:to_h) { {} }
