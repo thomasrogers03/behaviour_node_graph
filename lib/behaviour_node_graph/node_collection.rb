@@ -1,6 +1,7 @@
 module BehaviourNodeGraph
   class NodeCollection
     include Graphing
+    include ChildNodeExecution
     extend DefaultProperties
 
     OUTPUT_NODES = [:children].freeze
@@ -39,14 +40,9 @@ module BehaviourNodeGraph
     end
 
     def act
-      execute_nodes(self.context ||= Context.new, children)
-    end
-
-    private
-
-    def execute_nodes(context, nodes)
-      executor = ImmediateExecutor.new(context)
-      executor.execute(nodes)
+      self.context ||= Context.new
+      execute_nodes(children)
+      execute_nodes(next_nodes)
     end
 
   end

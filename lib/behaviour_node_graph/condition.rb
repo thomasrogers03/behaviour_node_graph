@@ -1,6 +1,7 @@
 module BehaviourNodeGraph
   class Condition
     include Graphing
+    include ChildNodeExecution
     extend DefaultProperties
 
     INPUTS = [:condition].freeze
@@ -49,6 +50,7 @@ module BehaviourNodeGraph
 
     def act
       @next_nodes = context.values[condition_source] ? @true_nodes : @false_nodes
+      super
     end
 
   end

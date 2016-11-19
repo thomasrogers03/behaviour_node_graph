@@ -100,8 +100,48 @@ module BehaviourNodeGraph
 
     describe '#act' do
       let(:context) { Context.new }
+      let(:next_node) { next_node_klass.new(SecureRandom.base64) }
+      let(:next_nodes) { [next_node] }
 
-      before { subject.context = context }
+      before do
+        subject.context = context
+        subject.next_nodes = next_nodes
+      end
+
+      it 'sets the child node context to the new context' do
+        subject.act
+        expect(next_node.context).to eq(subject.context)
+      end
+
+      it 'calls #act on the child node' do
+        expect(next_node).to receive(:act)
+        subject.act
+      end
+
+      context 'with a previously existing context' do
+        let(:context) { Context.new(hello: :world) }
+
+        it 'creates uses that context' do
+          subject.act
+          expect(subject.context).to eq(context)
+        end
+      end
+
+      context 'with multiple children' do
+        let(:next_node_two) { next_node_klass.new(SecureRandom.base64) }
+        let(:next_nodes) { [next_node, next_node_two] }
+
+        it 'calls #act on the first child' do
+          expect(next_node).to receive(:act)
+          subject.act
+        end
+
+        it 'calls #act on the second child' do
+          expect(next_node_two).to receive(:act)
+          subject.act
+        end
+      end
+
     end
   end
 end

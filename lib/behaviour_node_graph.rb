@@ -3,6 +3,7 @@ require 'lru_redux'
 
 require 'behaviour_node_graph/concerns/graphing'
 require 'behaviour_node_graph/concerns/default_properties'
+require 'behaviour_node_graph/concerns/child_node_execution'
 require 'behaviour_node_graph/instructions'
 require 'behaviour_node_graph/context'
 require 'behaviour_node_graph/node'

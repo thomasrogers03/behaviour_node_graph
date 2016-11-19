@@ -1,6 +1,7 @@
 module BehaviourNodeGraph
   module Node
     include Graphing
+    include ChildNodeExecution
 
     attr_reader :id
     attr_accessor :context, :executor, :next_nodes
